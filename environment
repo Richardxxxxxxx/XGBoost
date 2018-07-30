@@ -9,7 +9,7 @@ export M2=$M2_HOME/bin
 export PATH=$M2:$PATH
 source ~/.bashrc
 
-##########升级gcc all files can be found on http://ftp.gnu.org/gnu/
+##########升级gcc all files can be found on http://ftp.gnu.org/gnu/ and https://gcc.gnu.org/pub/gcc/infrastructure/
 
 #安装gmp
 tar -jxvf gmp-6.1.2.tar.bz2
@@ -100,3 +100,25 @@ cd Python-2.7.15
 make
 make altinstall
 ln -s /usr/local/bin/python2.7  /usr/bin/python
+
+
+3.error: isl/schedule.h: No such file or directory
+find isl on https://gcc.gnu.org/pub/gcc/infrastructure/
+(similarly, if prompting that something required but you don't have ,try to find on https://gcc.gnu.org/pub/gcc/infrastructure/ )
+tar -xvf isl-0.18.tar.bz2
+cd isl-0.18
+./configure
+make & make check
+make install
+
+
+
+4.no compiler
+(a lower version of gcc is needed to install required packages)
+yum install gcc
+
+5.C++ compilermissing or inoperational
+yum install gcc-c++
+
+6.#error -static-libstdc++ notimplemented
+yum install glibc-static libstdc++-static -y
