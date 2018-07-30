@@ -1,0 +1,86 @@
+#####################################
+XGBOOST版本摘要
+##0.8
+使用JAVA 8，不再支持JAVA 7
+
+##0.7
+支持JAVA 7
+
+#0.6更新功能
+#Switch to use of c++11 standard code.
+#Enable xgboost4j for java and scala
+#XGBoost distributed now runs on Flink and Spark.
+
+#0.4版本
+#支持低版本c++，但是没有spark功能, 所以必须执行gcc版本升级，升级文档请看"enviroment.md"
+####################################
+
+打包过程
+git clone https://github.com/dmlc/xgboost
+cd xgboost
+##important!!!!! the latest version(XGBOOST 0.8) only supports JAVA 8, we need to checkout an older version which is XGBOOST 0.7, see trouble shooting 3
+##if you are sure you have JAVA 8 enviroment, please skip "git checkout 4aa346c10b29febc41ef5d5e84934abd222c1ae7"
+##skiping "git checkout 4aa346c10b29febc41ef5d5e84934abd222c1ae7" will checkout xgboost version 0.8 which does not support JAVA 7
+git checkout 4aa346c10b29febc41ef5d5e84934abd222c1ae7
+git submodule init
+git submodule update
+cd xgboost
+make clean_all
+make
+cd jvm-packages
+mvn package
+
+You can also skip the tests by running mvn -DskipTests=true package, if you are sure about the correctness of your local setup.
+
+
+
+
+trouble shooting:
+1.pragma message: Will need g++-4.6 or higher to compile allthe features in dmlc-core:
+
+ensure the previous 
+/usr/bin/gcc -v
+/usr/bin/c++ -v
+/usr/bin/g++ -v
+is linked to the latest version, if not redo 
+rm /usr/bin/gcc
+rm /usr/bin/c++
+rm /usr/bin/g++
+.....
+.....
+ln -s /usr/local/bin/gcc  /usr/bin/gcc
+ln -s /usr/local/bin/c++  /usr/bin/c++
+ln -s /usr/local/bin/g++  /usr/bin/g++
+ln -s /usr/local/bin/cpp  /usr/bin/cpp
+ln -s /usr/local/bin/gcov  /usr/bin/gcov
+ln -s /usr/local/bin/gcc-ar  /usr/bin/gcc-ar
+ln -s /usr/local/bin/gcc-nm  /usr/bin/gcc-nm
+ln -s /usr/local/bin/gcc-ranlib  /usr/bin/gcc-ranlib
+ln -s /usr/local/bin/gcov-dump  /usr/bin/gcov-dump
+ln -s /usr/local/bin/gcov-tool  /usr/bin/gcov-tool
+
+2.ValueError: zero length field name in format
+your are running an old Python version 
+/usr/bin/python -V
+upgrade to python 2.7 or later
+
+yum install openssl-devel bzip2-devel expat-devel gdbm-devel readline-devel sqlite-devel
+tar -zxvf Python-2.7.15.tgz
+cd Python-2.7.15
+./configure --prefix=/usr/local/
+make
+make altinstall
+ln -s /usr/local/bin/python2.7  /usr/bin/python
+
+3.Unsupported major.minor version 52.0
+JAVA需要升级到1.8+
+如果不想升级，需要降级XGBOOST版本
+git clone https://github.com/dmlc/xgboost
+cd xgboost
+git checkout 4aa346c10b29febc41ef5d5e84934abd222c1ae7
+git submodule init
+git submodule update
+
+4./usr/lib64/libgomp.so.1: version `GOMP_4.0' not found 
+更换libgomp链接 xgboost需要使用，更换前最好进行备份
+ln -s /usr/local/lib64/libgomp.so.1 /usr/lib64/libgomp.so.1
