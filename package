@@ -12,7 +12,7 @@ XGBOOST版本摘要
 #XGBoost distributed now runs on Flink and Spark.
 
 #0.4版本
-#支持低版本c++，但是没有spark功能, 所以必须执行gcc版本升级，升级文档请看"enviroment.md"
+#支持低版本c++，但是没有spark功能, 所以必须执行gcc版本升级，升级文档请看"environment"
 ####################################
 
 打包过程
