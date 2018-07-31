@@ -11,6 +11,22 @@ but I suggest you also update gcc、c++、g++ and cpp as mentioned
 Java 7+ is also needed
 ###################################
 
+
+
+###################################
+if you have followed steps shown in 'enviroment' on a certain service
+and have a older version of gcc(lower version) on your current machine, and you don't want to upgrade it
+you can simplely 
+tar -cvf lib.tar /usr/local/lib64/*
+on that server and copy it to a sprak nodes
+/usr/local/lib64/ tar -xvf lib.tar
+mv /usr/lib64/libgomp.so.1 /usr/lib64/libgomp.so.1.backup
+ln -s /usr/local/lib64/libgomp.so.1 /usr/lib64/libgomp.so.1
+mv /usr/lib64/libstdc++.so.6 /usr/lib64/libstdc++.so.6.backup
+ln -s /usr/local/lib64/libstdc++.so.6 /usr/lib64/libstdc++.so.6
+###################################
+
+
 #安装gmp
 tar -jxvf gmp-6.1.2.tar.bz2
 cd  gmp-6.1.2
@@ -51,6 +67,12 @@ ln -s /usr/local/lib64/libstdc++.so.6 /usr/lib64/libstdc++.so.6
 
 #更换libgomp链接 xgboost需要使用，更换前需要备份
 ln -s /usr/local/lib64/libgomp.so.1 /usr/lib64/libgomp.so.1
+
+optional:
+ln -s /usr/local/bin/gcc  /usr/bin/gcc
+ln -s /usr/local/bin/c++  /usr/bin/c++
+ln -s /usr/local/bin/g++  /usr/bin/g++
+ln -s /usr/local/bin/cpp  /usr/bin/cpp
 
 
 trouble shooting:
