@@ -7,7 +7,7 @@ ln -s /usr/local/bin/gcc  /usr/bin/gcc
 ln -s /usr/local/bin/c++  /usr/bin/c++
 ln -s /usr/local/bin/g++  /usr/bin/g++
 ln -s /usr/local/bin/cpp  /usr/bin/cpp
-but I suggest you also update gcc、c++、g++ and cpp as I mentioned
+but I suggest you also update gcc、c++、g++ and cpp as mentioned
 Java 7+ is also needed
 ###################################
 
