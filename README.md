@@ -6,8 +6,10 @@ Using XGBoost 0.7 as base, including enviroment preparation and version requirem
 
 file structure:
 
-environment: about enviroment preparation
+environment: about enviroment preparation for package service, not for spark running nodes
 
 package: about creating jvm packages
+
+spark: about enviroment preparation for spark running nodes
 
 test: testing my packages are correctly created
