@@ -1,7 +1,14 @@
 ####################################
-只有package文件描述中的打包服务器需要遵循environment中的指示
-对于spark中所有运行节点不需要替换原gcc、c++等链接
-只需要替换libstdc++.so.6与libgomp.so.1
+only package server needs to follow the instruction in 'environment' 
+for those spark running nodes, we only needs to replace libstdc++.so.6 and libgomp.so.1
+but the required libstdc++.so.6 and libgomp.so.1 can be obtain only when C++11 is installed
+the only difference is we don't have to perform :
+ln -s /usr/local/bin/gcc  /usr/bin/gcc
+ln -s /usr/local/bin/c++  /usr/bin/c++
+ln -s /usr/local/bin/g++  /usr/bin/g++
+ln -s /usr/local/bin/cpp  /usr/bin/cpp
+but I suggest you also update gcc、c++、g++ and cpp as I mentioned
+Java 7+ is also needed
 ###################################
 
 #安装gmp
