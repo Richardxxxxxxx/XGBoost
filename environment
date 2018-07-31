@@ -1,6 +1,6 @@
 
 
-##########环境准备 版本可根据需要进行修改:Maven 3 or newer, Java 7+, CMake 3.2+, python2.7+
+##########(打包编译)环境准备 版本可根据需要进行修改:Maven 3 or newer, Java 7+, CMake 3.2+, python2.7+
 yum install java-1.7.0-openjdk*
 tar xvf apache-maven-3.0.5-bin.tar.gz
 mv apache-maven-3.0.5  /usr/local/apache-maven
@@ -56,9 +56,7 @@ ln -s /usr/local/bin/gcc-ranlib  /usr/bin/gcc-ranlib
 ln -s /usr/local/bin/gcov-dump  /usr/bin/gcov-dump
 ln -s /usr/local/bin/gcov-tool  /usr/bin/gcov-tool
 #注意！替换旧链接库，执行第二步（删除旧链接库）前请先确认/usr/local/lib64/libstdc++.so.6链接库存在，并且备份旧链接库
-cd /usr/lib64
-rm -rf libstdc++.so.6
-cp /usr/local/lib64/libstdc++.so.6 ./
+ln -s /usr/local/lib64/libstdc++.so.6 /usr/lib64/libstdc++.so.6
 
 #更换libgomp链接 xgboost需要使用，更换前需要备份
 ln -s /usr/local/lib64/libgomp.so.1 /usr/lib64/libgomp.so.1
