@@ -1,0 +1,106 @@
+####################################
+只有package文件描述中的打包服务器需要遵循environment中的指示
+对于spark中所有运行节点不需要替换原gcc、c++等链接
+只需要替换libstdc++.so.6与libgomp.so.1
+###################################
+
+#安装gmp
+tar -jxvf gmp-6.1.2.tar.bz2
+cd  gmp-6.1.2
+./configure
+make & make check
+make install
+
+#安装mpfr
+tar -zxvf mpfr-4.0.1.tar.gz
+cd mpfr-4.0.1
+./configure  --with-gmp-include=/usr/local/include --with-gmp-lib=/usr/local/lib
+make & make check
+make install
+
+#安装mpc
+tar -zxvf mpc-1.1.0.tar.gz
+cd mpc-1.1.0
+./configure
+make & make check
+make install
+
+#设置环境变量
+vim ~/.bash_profile
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib:/usr/local/lib64:/usr/lib64
+source ~/.bash_profile
+
+#安装gcc 指定安装在--prefix=/usr/local/，可根据实际情况更改，后边步骤根据修改后的目录进行
+tar -zxvf gcc-8.1.0.tar.gz
+cd gcc-8.1.0
+mkdir gcc-build-8.1
+./configure --prefix=/usr/local/ --enable-checking=release --enable-languages=c,c++ --disable-multilib
+make & make install
+
+
+
+#注意！替换旧链接库，执行第二步（删除旧链接库）前请先确认/usr/local/lib64/libstdc++.so.6链接库存在，并且备份旧链接库
+ln -s /usr/local/lib64/libstdc++.so.6 /usr/lib64/libstdc++.so.6
+
+#更换libgomp链接 xgboost需要使用，更换前需要备份
+ln -s /usr/local/lib64/libgomp.so.1 /usr/lib64/libgomp.so.1
+
+
+trouble shooting:
+1.pragma message: Will need g++-4.6 or higher to compile allthe features in dmlc-core:
+
+ensure the previous 
+/usr/bin/gcc -v
+/usr/bin/c++ -v
+/usr/bin/g++ -v
+is linked to the latest version, if not redo 
+rm /usr/bin/gcc
+rm /usr/bin/c++
+rm /usr/bin/g++
+.....
+.....
+ln -s /usr/local/bin/gcc  /usr/bin/gcc
+ln -s /usr/local/bin/c++  /usr/bin/c++
+ln -s /usr/local/bin/g++  /usr/bin/g++
+ln -s /usr/local/bin/cpp  /usr/bin/cpp
+ln -s /usr/local/bin/gcov  /usr/bin/gcov
+ln -s /usr/local/bin/gcc-ar  /usr/bin/gcc-ar
+ln -s /usr/local/bin/gcc-nm  /usr/bin/gcc-nm
+ln -s /usr/local/bin/gcc-ranlib  /usr/bin/gcc-ranlib
+ln -s /usr/local/bin/gcov-dump  /usr/bin/gcov-dump
+ln -s /usr/local/bin/gcov-tool  /usr/bin/gcov-tool
+
+2.ValueError: zero length field name in format
+your are running an old Python version 
+/usr/bin/python -V
+upgrade to python 2.7 or later
+
+yum install openssl-devel bzip2-devel expat-devel gdbm-devel readline-devel sqlite-devel
+tar -zxvf Python-2.7.15.tgz
+cd Python-2.7.15
+./configure --prefix=/usr/local/
+make
+make altinstall
+ln -s /usr/local/bin/python2.7  /usr/bin/python
+
+
+3.error: isl/schedule.h: No such file or directory
+find isl on https://gcc.gnu.org/pub/gcc/infrastructure/
+(similarly, if prompting that something required but you don't have ,try to find on https://gcc.gnu.org/pub/gcc/infrastructure/ )
+tar -xvf isl-0.18.tar.bz2
+cd isl-0.18
+./configure
+make & make check
+make install
+
+
+
+4.no compiler
+(a lower version of gcc is needed to install required packages)
+yum install gcc
+
+5.C++ compilermissing or inoperational
+yum install gcc-c++
+
+6.#error -static-libstdc++ notimplemented
+yum install glibc-static libstdc++-static -y
